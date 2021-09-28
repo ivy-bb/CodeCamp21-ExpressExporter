@@ -59,7 +59,8 @@ public class ExpressWorkflowExporter {
     IProject project = pmv.getProject();
     write(expressProcess, project);
     Sudo.exec(() -> BpmExecDeployer.deploy(pmv));
-
+    Sudo.exec(() -> pm.deactivate());
+    Sudo.exec(() -> pm.activate());
   }
 
   private static void write(ExpressProcess expressProcess, IProject project)
@@ -127,11 +128,13 @@ public class ExpressWorkflowExporter {
           createUserTask(taskdef, more, isfirstTask, nb);
           isfirstTask = false;
 
-          //DiagramEdge connectTo = split.edges().connectTo(more); // connect
+          split.edges().connectTo(more); // connect
+          //DiagramEdge connectTo = split.edges().connectTo(more);
           //SequenceFlow flow = connectTo.getConnector();
           //bendConnectorLegacy(execDiagram, flow);
 
-          //DiagramEdge connectTo2 = more.edges().connectTo(join); // connect
+          more.edges().connectTo(join); // connect
+          //DiagramEdge connectTo2 = more.edges().connectTo(join);
           //SequenceFlow flow2 = connectTo2.getConnector();// connect
           //flow2.setWaypoints(flow2.getWaypoints().add(new Position(x, y + nb * GRID_Y)));
           //bendConnectorLegacy(execDiagram, flow2);
