@@ -1,0 +1,4 @@
+Check_goods_on_stock_compData #class
+axon.ivy.express.sample.Check_goods_on_stock_comp #namespace
+y axon.ivy.express.sample.Check_goods_on_stock_Dlg #field
+y PERSISTENT #fieldModifier

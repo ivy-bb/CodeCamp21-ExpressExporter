@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition template="/layouts/frame-9.xhtml">
+		<ui:define name="title">sampledlg</ui:define>
+		<ui:define name="content">
+			<style>
+.noborderpanel {
+	border: 0px;
+}
+</style>
+
+			<h3>Check goods on stock</h3>
+
+      <h:form id="form">
+			<p:fieldset legend="Give your order" toggleable="true" collapsed="true">
+      <ic:axon.ivy.express.sample.Give_your_order_comp data="#{data.give_your_order}"></ic:axon.ivy.express.sample.Give_your_order_comp>
+			</p:fieldset>
+      <br/>
+      <p>Check and approve. Set delivery date.</p>
+
+      <p:panel>
+				<p:messages />
+				<ic:axon.ivy.express.sample.Check_goods_on_stock_comp
+					data="#{data.check_goods_on_stock}"></ic:axon.ivy.express.sample.Check_goods_on_stock_comp>
+				<br />
+				<div class="command-btns">
+					<p:commandLink id="cancel"
+						actionListener="#{ivyWorkflowView.cancel()}" value="Cancel" />
+					<p:commandButton id="proceed" actionListener="#{logic.close}"
+						value="Proceed" update="form" icon="ui-icon-check" />
+				</div>
+</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>
