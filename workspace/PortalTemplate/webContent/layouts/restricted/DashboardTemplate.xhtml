@@ -1,0 +1,206 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsf="http://xmlns.jcp.org/jsf"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<h:body>
+  <ui:composition template="/layouts/BasicTemplate.xhtml">
+    <ui:define name="title">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/dashboard')}</ui:define>
+    <ui:param name="loadGridStack" value="true" />
+
+    <ui:define name="pageContent">
+      <script type="text/javascript">
+        if("${adminSettingBean.isShowLegacyUI()}"==="true") {
+          window.location = "${menuView.getDashboardLink()}";
+        }
+      </script>
+      <div class="ui-g">
+      <!-- User doesn't have permissions -->
+      <ui:fragment rendered="#{empty managedBean.dashboards}">
+        <h1 class="ui-g-12">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/noPermission')}</h1>
+      </ui:fragment>
+
+      <!-- Dashboard content -->
+      <ui:fragment rendered="#{not empty managedBean.dashboards}">
+        <h:outputStylesheet library="css" name="dashboard.css" />
+        <div class="dashboard__header ui-g-12 js-dashboard__header">
+
+          <h:panelGroup id="dashboard-title-container" styleClass="u-hidden-sm-down ui-lg-8 ui-md-7 dashboard__title-container">
+            <c:forEach var="dashboard" items="#{managedBean.dashboards}" varStatus="dashboardStatus">
+              <p:commandLink id="dashboard-title-#{dashboardStatus.index}" actionListener="#{managedBean.onDashboardChange(dashboardStatus.index)}"
+                update="grid-stack dashboard-title-container dashboard-title-dropdown-container" process="@this" oncomplete="loadGrid()" value="#{dashboard.title}"
+                styleClass="dashboard__title #{managedBean.currentDashboardIndex == dashboardStatus.index ? 'dashboard__title--active':''}"/>
+            </c:forEach>
+          </h:panelGroup>
+          <h:panelGroup id="dashboard-title-dropdown-container" styleClass="u-hidden-md-up ui-g-12 padding-0 dashboard__title-dropdown-container" layout="block">
+            <p:selectOneMenu id="dashboard-title-dropdown" value="#{managedBean.selectedDashboardId}" styleClass="ui-fluid dashboard__title-dropdown" >
+              <f:selectItems value="#{managedBean.dashboards}" var="dashboard" itemLabel="#{dashboard.title}" itemValue="#{dashboard.id}" />
+              <p:ajax event="change" process="@this" listener="#{managedBean.onDashboardChangeByDropdown}" oncomplete="loadGrid()" partialSubmit="true"
+                update="grid-stack dashboard-title-container" />
+            </p:selectOneMenu>
+            
+          </h:panelGroup>
+
+          <span class="dashboard-header__action ui-lg-4 ui-md-5 ui-sm-12">
+            <ui:insert name="headerAction" />
+          </span>
+        </div>
+
+          <h:form id="dashboard-remote-command-form" prependId="false">
+            <p:remoteCommand name="saveConfigurationCommand" actionListener="#{managedBean.save()}" global="false" />
+            <p:remoteCommand name="updateDashboardWidget" update="grid-stack" oncomplete="loadGrid(); return false;" />
+            <p:remoteCommand name="saveWidgetState" actionListener="#{managedBean.saveSelectedWidget()}" global="false"/>
+            <p:remoteCommand name="loadAllWidgetSavedFilters" actionListener="#{dashboardBean.loadAllWidgetSavedFilters()}"
+              global="false" process="@this" immediate="true" partialSubmit="true"
+              update="delete-saved-filter-form:quick-filter-table"
+              oncomplete="PF('quick-filter-table').clearFilters(); PF('manage-filter-dialog').initPosition();"/>
+
+            <ui:insert name="additionalRemoteCommand" />
+          </h:form>
+
+        <div id="dashboard-body" class="dashboard__body ui-g-12 js-dashboard__body #{dashboardBodyStyleClass}">
+          <h:panelGroup id="grid-stack" layout="block" styleClass="grid-stack ui-g-12">
+            <c:if test="#{not empty managedBean.selectedDashboard.widgets}">
+              <c:forEach var="widget" items="#{managedBean.selectedDashboard.widgets}" varStatus="status">
+                <div class="grid-stack-item portal-card-container"
+                  gs-x="#{widget.layout.axisX}"
+                  gs-y="#{widget.layout.axisY}"
+                  gs-id="#{widget.id}"
+                  gs-w="#{widget.layout.width}"
+                  gs-h="#{widget.layout.height}"
+                  gs-autoPosition="#{widget.autoPosition}"
+                  gs-no-resize="#{managedBean.isReadOnlyMode}"
+                  gs-no-move="#{managedBean.isReadOnlyMode}">
+                  <div class="grid-stack-item-content card dashboard-card dashboard__widget #{widget.layout.styleClass} js-dashboard-widget-#{widget.id}">
+                    <!-- Task widget -->
+                    <c:if test="#{widget.type eq 'TASK'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.TaskDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="task-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Case widget -->
+                    <c:if test="#{widget.type eq 'CASE'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.CaseDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="case-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Process widget -->
+                    <c:if test="#{widget.type eq 'PROCESS'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.ProcessDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="process-#{widget.id}" />
+                    </c:if>
+
+                    <!-- Custom widget -->
+                    <c:if test="#{widget.type eq 'CUSTOM'}">
+                      <ic:ch.ivy.addon.portal.generic.dashboard.component.CustomDashboardWidget widget="#{widget}"
+                        isReadOnlyMode="#{managedBean.isReadOnlyMode}"
+                        index="#{status.index}"
+                        id="custom-#{widget.id}" />
+                    </c:if>
+                    
+                  </div>
+                </div>
+              </c:forEach>
+            </c:if>
+            <c:if test="#{empty managedBean.selectedDashboard.widgets}">
+              <p class="ui-g-12">#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/noWidget')}</p>
+            </c:if>
+            <ui:insert name="dashboardContent" />
+          </h:panelGroup>
+
+          <p:dialog id="save-widget-filter-dialog" widgetVar="save-widget-filter-dialog" appendTo="@(body)"
+            header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/SaveNewWidgetFilterHeader')}"
+            modal="true" fitViewport="true" dynamic="true" closable="false" width="450">
+            <h:form id="save-filter-form" styleClass="ui-g">
+              <p:messages styleClass="ui-g-12" redisplay="false" for="save-filter-form"/>
+              <div class="md-inputfield ui-fluid ui-g-12 MarTop20">
+                <p:inputText id="save-filter-name" value="#{widgetFilterHelperBean.saveFilter.name}" required="true" 
+                  maxlength="30"
+                  requiredMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/requiredFieldMessage')}"/>
+                <h:outputLabel styleClass="ui-g-12" for="save-filter-name"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/WidgetFilterName')}" />
+                <p:message for="save-filter-name"/>
+              </div>
+              <div class="ui-g-12 MarTop10 TexAlRight">
+                <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/cancel')}"
+                  oncomplete="PF('save-widget-filter-dialog').hide();" styleClass="u-mar-right-10"
+                  process="@this" update="save-filter-form" resetValues="true"
+                  partialSubmit="true" immediate="true"/>
+                <p:commandButton id="save-widget-filter-button"
+                  value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/save')}"
+                  actionListener="#{widgetFilterHelperBean.saveNewWidgetFilter()}"
+                  icon="#{visibilityBean.generateButtonIcon('si si-floppy-disk')}"
+                  oncomplete="if (!args.validationFailed) { #{widgetFilterHelperBean.loadWidgetFilters}; PF('save-widget-filter-dialog').hide();}"
+                  update="save-filter-form"
+                  process="save-filter-form"/>
+              </div>
+            </h:form>
+          </p:dialog>
+
+          <p:dialog id="manage-filter-dialog" widgetVar="manage-filter-dialog"
+            header="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/ManageWidgetFilterHeader')}"
+            modal="true" fitViewport="true" width="650" styleClass="manage-filter-dialog"
+            dynamic="true" appendTo="@(body)" closable="false"
+            onShow="loadAllWidgetSavedFilters();">
+            <h:form id="delete-saved-filter-form" styleClass="ui-g">
+              <div class="ui-g-12">
+                <p:dataTable id="quick-filter-table" value="#{dashboardBean.widgetFilters}" var="quickFilter"
+                  widgetVar="quick-filter-table" scrollHeight="300" scrollable="true" reflow="true"
+                  selection="#{dashboardBean.deleteFilters}" rowKey="#{quickFilter.name}"
+                  emptyMessage="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/EmptyFilterMessage')}">
+
+                  <p:column selectionMode="multiple" styleClass="saved-filter-selection-column" width="40"/>
+
+                  <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/name')}" width="200"
+                    filterBy="#{quickFilter.name}" sortBy="#{quickFilter.name}" filterMatchMode="contains">
+                    <h:outputText value="#{quickFilter.name}"/>
+                  </p:column>
+
+                  <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/Filter/WidgetNameColumn')}"
+                    filterBy="#{quickFilter.widgetName}" sortBy="#{quickFilter.widgetName}" filterMatchMode="contains"
+                    width="200">
+                    <h:outputText value="#{quickFilter.widgetName}"/>
+                  </p:column>
+
+                  <p:column headerText="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/type')}" width="150"
+                    sortBy="#{quickFilter.widgetType}" filterBy="#{quickFilter.widgetType.getLabel()}" filterMatchMode="contains">
+                    <h:outputText value="#{quickFilter.widgetType.getLabel()}"/>
+                  </p:column>
+                </p:dataTable>
+              </div>
+              <h:panelGroup id="manage-filter-action" layout="block" styleClass="ui-g-12 TexAlRight">
+                <p:commandLink value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/close')}"
+                  onclick="PF('manage-filter-dialog').hide();"
+                  styleClass="u-mar-right-15" global="false"/>
+                <p:commandButton id="delete-widget-filter-btn" value="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/common/remove')}"
+                  process="delete-saved-filter-form" update="delete-saved-filter-form:quick-filter-table"
+                  actionListener="#{dashboardBean.deleteSavedFilter()}"
+                  oncomplete="PF('quick-filter-table').clearFilters()"
+                  icon="si si-remove" />
+              </h:panelGroup>
+            </h:form>
+          </p:dialog>
+
+          </div>
+        <h:outputScript library="js" name="dashboard.js" />
+
+        <script type="text/javascript">
+            $(function() {
+              var simpleScreen = new DashboardScreenHandler();
+              var responsiveToolkit = ResponsiveToolkit(simpleScreen);
+              Portal.init(responsiveToolkit);
+            });
+        </script>
+
+      </ui:fragment>
+      </div>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
