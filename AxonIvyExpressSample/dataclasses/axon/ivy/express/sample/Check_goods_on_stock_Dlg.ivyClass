@@ -1,0 +1,6 @@
+Check_goods_on_stock_Dlg #class
+axon.ivy.express.sample #namespace
+Estimated_Delivery_ java.lang.String #field
+Estimated_Delivery_ PERSISTENT #fieldModifier
+Footnote_ java.lang.String #field
+Footnote_ PERSISTENT #fieldModifier

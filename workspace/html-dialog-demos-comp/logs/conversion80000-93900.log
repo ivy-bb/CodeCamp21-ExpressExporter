@@ -1,0 +1,33 @@
+# Conversion log for project 'html-dialog-demos-comp' from version 80000 to 93900
+# Created on 11.03.2022 17:04:16
+11.03.2022 17:04:17 : New Task  : Enable Maven nature in project
+11.03.2022 17:04:17 : Info      : Project has already Maven nature - nothing to convert
+11.03.2022 17:04:17 : Info      : Migrate Global Variables to variables.yaml
+11.03.2022 17:04:17 : Info      : no global variables found. nothing to convert.
+11.03.2022 17:04:17 : Info      : deleted folder config/GlobalVariables
+11.03.2022 17:04:17 : Info      : Migrate External Databases to databases.yaml
+11.03.2022 17:04:17 : Info      : No External Databases found. nothing to convert.
+11.03.2022 17:04:17 : Info      : deleted file databases.dbConfig
+11.03.2022 17:04:17 : Info      : Migrate Rest Clients to rest-clients.yaml
+11.03.2022 17:04:17 : Info      : No Rest Clients found. nothing to convert.
+11.03.2022 17:04:17 : Info      : deleted file restClients.restConfig
+11.03.2022 17:04:17 : Info      : Convert environments from config cms to config
+11.03.2022 17:04:17 : Info      : Converted 0 environments.
+11.03.2022 17:04:17 : Info      : Classpath entry src_ws (AXIS 1) removed from .classpath
+11.03.2022 17:04:17 : Info      : Folder src_ws (AXIS 1) removed from project
+11.03.2022 17:04:17 : Info      : Classpath container WS_CALL_AXIS2_CONTAINER removed from .classpath
+11.03.2022 17:04:17 : Info      : Classpath entries starting with lib_ws/client/wsClient_* (AXIS 2) removed from .classpath
+11.03.2022 17:04:17 : Info      : Write 0 formats to config/formats.yaml
+11.03.2022 17:04:17 : Info      : No Web Service Clients found. Nothing to convert.
+11.03.2022 17:04:17 : Info      : deleted file webservice.wsconfig
+11.03.2022 17:04:17 : Info      : Upgrade persistence.xml from 1.0 to 2.2
+11.03.2022 17:04:17 : Info      : Move testusers.userconfig to config/users.xml
+11.03.2022 17:04:17 : Info      : Move roles.roleconfig to config/roles.xml
+11.03.2022 17:04:17 : Info      : Move overrides.overrideconfig to config/overrides.any
+11.03.2022 17:04:17 : Info      : Move src/META-INF/persistence.xml to config/persistence.xml
+11.03.2022 17:04:17 : Info      : Remove webContent/META-INF/MANIFEST.MF
+11.03.2022 17:04:17 : Info      : Remove webContent/WEB-INF/faces-config.xml
+11.03.2022 17:04:17 : Info      : Convert config/overrides.any to UTF-8
+11.03.2022 17:04:17 : New Task  : Store process MOD files in latest version 9.3.1
+11.03.2022 17:04:18 : New Task  : Update project version to actual version 93900.
+11.03.2022 17:04:18 : New Task  : Finished conversion of project html-dialog-demos-comp.

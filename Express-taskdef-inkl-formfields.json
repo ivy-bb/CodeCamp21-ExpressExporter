@@ -1,0 +1,9 @@
+"{'type':'USER_TASK','responsibles':['#demo'],'subject':'first','taskPosition':1,'untilDays':1,
+'formElements':[{'label':'Description','required':true,'intSetting':7,'elementType':'InputTextArea','optionStrs':[''],'elementPosition':'HEADER','indexInPanel':0}]}"
+
+"{'type':'USER_TASK','responsibles':['Everybody'],'subject':'Give your order','description':'Select your goods','taskPosition':1,'untilDays':1,
+'formElements':[
+{'elementID':'Delivery Address2021-09-15 15:22:00','label':'Delivery Address','required':false,'intSetting':0,'elementType':'InputFieldText','optionStrs':[''],'elementPosition':'HEADER','indexInPanel':0},
+{'elementID':'Lip Gloss2021-09-15 15:18:03','label':'Lip Gloss','required':false,'intSetting':0,'elementType':'ManyCheckbox','optionStrs':['color 1','color 2','color 3'],'elementPosition':'LEFTPANEL','indexInPanel':0},{
+'elementID':'After Shave Balm2021-09-15 15:19:50','label':'After Shave Balm','required':false,'intSetting':0,'elementType':'OneRadio','optionStrs':['50ml','100ml'],'elementPosition':'RIGHTPANEL','indexInPanel':0},
+{'elementID':'Some remarks2021-09-15 15:20:21','label':'Some remarks','required':false,'intSetting':2,'elementType':'InputTextArea','optionStrs':[''],'elementPosition':'FOOTER','indexInPanel':0}]}"

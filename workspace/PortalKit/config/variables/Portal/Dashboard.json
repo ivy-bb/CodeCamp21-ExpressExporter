@@ -1,0 +1,91 @@
+[{
+    "id": "1",
+    "title": "cms:/ch.ivy.addon.portalkit.ui.jsf/common/dashboard",
+    "widgets": [
+      {
+        "type": "task",
+        "id": "task_1",
+        "layout": {
+          "x": 0, "y": 0, "w": 12, "h": 5
+        },
+        "rowsPerPage": 5,
+        "sortField": "name",
+        "columns": [
+          {
+            "field": "start"
+          },
+          {
+            "field": "priority"
+          },
+          {
+            "field": "id"
+          },
+          {
+            "field": "name"
+          },
+          {
+            "field": "description"
+          },
+          {
+            "field": "activator"
+          },
+          {
+            "field": "state"
+          },
+          {
+            "field": "startTimestamp"
+          },
+          {
+            "field": "expiryTimestamp"
+          },
+          {
+            "field": "category"
+          }
+        ],
+        "canWorkOn": true
+      },
+      {
+        "type": "case",
+        "id": "case_1",
+        "layout": {
+          "x": 0, "y": 5, "w": 9, "h": 5
+        },
+        "rowsPerPage": 5,
+        "sortField": "name",
+        "columns": [
+          {
+            "field": "id"
+          },
+          {
+            "field": "name"
+          },
+          {
+            "field": "description"
+          },
+          {
+            "field": "state"
+          },
+          {
+            "field": "creator"
+          },
+          {
+            "field": "startTimestamp"
+          },
+          {
+            "field": "endTimestamp"
+          },
+          {
+            "field": "category"
+          }
+        ]
+      },
+      {
+        "type": "process",
+        "id": "process_1",
+        "layout": {
+          "x": 9, "y": 5, "w": 3, "h": 5
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions" xmlns:cc="http://xmlns.jcp.org/jsf/composite" xmlns:jsf="http://xmlns.jcp.org/jsf"
+  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<cc:interface componentType="IvyComponent">
+  <cc:attribute name="taskWidget" />
+  <cc:attribute name="componentToUpdate" />
+  <cc:attribute name="isReadOnlyMode" default="false" />
+</cc:interface>
+
+<cc:implementation>
+  <f:event listener="#{dashboardTaskFilterBean.preRender(cc.attrs.taskWidget)}" type="preRenderComponent" />
+
+  <ui:decorate template="/layouts/restricted/decorator/TableWidgetConfiguration.xhtml">
+    <ui:param name="widget" value="#{cc.attrs.taskWidget}" />
+    <ui:param name="componentToUpdateOnPreviewAction" value="#{cc.clientId}:task-widget-preview:dashboard-tasks" />
+    <ui:param name="componentToProcessOnPreviewAction" value="user-filter" />
+    <ui:param name="onCompletePreviewAction" value="PF('dashboard-tasks-#{cc.attrs.taskWidget.id}').filter()" />
+
+    <ui:define name="widgetFilterContent">
+      <h:panelGroup id="user-filter" layout="block" styleClass="ui-g">
+        <ui:repeat var="field" value="#{cc.attrs.taskWidget.filterableColumns}">
+          <ic:ch.ivy.addon.portalkit.component.dashboard.taskwidget.PriorityFilterColumn field="#{field}"
+            selectedPriorities="#{field.priorities}"
+            priorityOptions="#{dashboardTaskFilterBean.priorities}"/>
+
+          <ic:ch.ivy.addon.portalkit.component.dashboard.taskwidget.StateFilterColumn field="#{field}"
+            stateOptions="#{dashboardTaskFilterBean.states}"
+            selectedStates="#{field.states}"/>
+  
+          <h:panelGroup rendered="#{field.field eq 'activator'}">
+            <ic:ch.ivy.addon.portalkit.component.dashboard.taskwidget.ActivatorFilterColumn field="#{field}"
+              responsibleCompleteMethod="#{dashboardTaskFilterBean.completeResponsibles}"
+              selectedResponsibles="#{field.responsibles}"/>
+
+            <div class="ui-g-4 ui-sm-hidden" />
+            <div class="ui-g-8 ui-sm-12 ui-fluid">
+              <span class="task-configuration__chbox-work-on" />
+              <p:selectBooleanCheckbox id="can-work-on" value="#{cc.attrs.taskWidget.canWorkOn}"
+                itemLabel="#{ivy.cms.co('/ch.ivy.addon.portalkit.ui.jsf/dashboard/canWorkOn')}" />
+            </div>
+          </h:panelGroup>
+
+          <ic:ch.ivy.addon.portalkit.component.dashboard.widget.TextFilterColumn field="#{field}"
+            inputTextValue="#{field.filter}"
+            selectedTexts="#{field.filterList}" selectOptions="#{field.filterListOptions}"/>
+
+          <ic:ch.ivy.addon.portalkit.component.dashboard.widget.NumberFilterColumn field="#{field}"
+            filterTo="#{field.filterTo}"
+            filterFrom="#{field.filterFrom}"/>
+
+          <ic:ch.ivy.addon.portalkit.component.dashboard.widget.TimestampFilterColumn field="#{field}"
+           filterTo="#{field.dateFilterTo}"
+           filterFrom="#{field.dateFilterFrom}"/>
+
+          <ic:ch.ivy.addon.portalkit.component.dashboard.widget.CategoryFilterColumn field="#{field}"
+            displaySelectedCategories="#{field.displayCategories}" configurationMode="true"
+            categoryNodeSelection="#{field.categoryNodes}" categoryTree="#{field.categoryTree}"
+            containerStyleClass="task-configuration__category" inputCategoryStyleClass="task-configuration__input-text"
+            overlayCategoryStyleClass="task-configuration__category-panel" showUnselectableCheckbox="false"/>
+        </ui:repeat>
+      </h:panelGroup>
+    </ui:define>
+
+    <ui:param name="widgetPreviewStyleClass" value="task-preview" />
+    <ui:define name="widgetPreviewContent">
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.ColumnManagement id="column-management-component" widget="#{widget}"
+        componentToUpdate="#{cc.attrs.componentToUpdate}" />
+      <ic:ch.ivy.addon.portal.generic.dashboard.component.TaskWidget id="task-widget-preview" taskWidget="#{widget}"
+        renderColumnConfiguration="true" isReadOnlyMode="#{cc.attrs.isReadOnlyMode}" isPreviewMode="true"
+        onCompleteLoadWidget="PF('new-widget-configuration-dialog').initPosition();"/>
+    </ui:define>
+
+  </ui:decorate>
+</cc:implementation>
+</html>

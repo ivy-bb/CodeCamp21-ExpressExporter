@@ -1,0 +1,4 @@
+Give_your_order_compData #class
+axon.ivy.express.sample.Give_your_order_comp #namespace
+x axon.ivy.express.sample.Give_your_order_Dlg #field
+x PERSISTENT #fieldModifier
