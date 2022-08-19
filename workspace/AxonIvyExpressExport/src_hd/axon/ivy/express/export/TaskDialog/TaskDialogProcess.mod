@@ -1,5 +1,5 @@
 [Ivy]
-18004555B0993725 9.3.1 #module
+1828D37A3EA60349 9.3.1 #module
 >Proto >Proto Collection #zClass
 Ts0 TaskDialogProcess Big #zClass
 Ts0 RD #cInfo
@@ -16,7 +16,7 @@ Ts0 @UdEvent f3 '' #zField
 Ts0 @UdExitEnd f4 '' #zField
 Ts0 @PushWFArc f5 '' #zField
 >Proto Ts0 Ts0 TaskDialogProcess #zField
-Ts0 f0 guid 18004555B09DFCB6 #txt
+Ts0 f0 guid 1828D37A3EA4075E #txt
 Ts0 f0 method start(axon.ivy.express.export.Order_GoodiesData) #txt
 Ts0 f0 inParameterDecl '<axon.ivy.express.export.Order_GoodiesData data> param;' #txt
 Ts0 f0 inParameterMapAction 'out.processData=param.data;
@@ -36,7 +36,7 @@ Ts0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 Ts0 f0 83 51 26 26 -71 15 #rect
 Ts0 f1 211 51 26 26 0 12 #rect
 Ts0 f2 109 64 211 64 #arcP
-Ts0 f3 guid 18004555B09E663E #txt
+Ts0 f3 guid 1828D37A3EA35DEE #txt
 Ts0 f3 actionTable 'out=in;
 ' #txt
 Ts0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>

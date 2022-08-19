@@ -1,5 +1,5 @@
 [Ivy]
-18004555B2817C8C 9.3.1 #module
+1828D37A4096C105 9.3.1 #module
 >Proto >Proto Collection #zClass
 Os0 Order_Goodies Big #zClass
 Os0 B #cInfo
@@ -75,10 +75,10 @@ Os0 f2 111 128 168 128 #arcP
 Os0 f3 actionTable 'out=in1;
 ' #txt
 Os0 f3 outLinks "TaskB.ivp","TaskA.ivp" #txt
-Os0 f3 taskData 'TaskB.NAM=SYSTEM ch.ivyteam.ivy.process.model.diagram.value.Label@66df04a
+Os0 f3 taskData 'TaskB.NAM=SYSTEM ch.ivyteam.ivy.process.model.diagram.value.Label@4dced36
 TaskB.ROL=SYSTEM
 TaskB.TYPE=0
-TaskA.NAM=SYSTEM ch.ivyteam.ivy.process.model.diagram.value.Label@66df04a
+TaskA.NAM=SYSTEM ch.ivyteam.ivy.process.model.diagram.value.Label@4dced36
 TaskA.ROL=SYSTEM
 TaskA.TYPE=0' #txt
 Os0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -123,7 +123,7 @@ out.check=in1.check;
 out.check2=in2.check2;
 ' #txt
 Os0 f7 outLinks "TaskA.ivp" #txt
-Os0 f7 taskData 'TaskA.NAM=SYSTEM ch.ivyteam.ivy.process.model.diagram.value.Label@a7d71a72
+Os0 f7 taskData 'TaskA.NAM=SYSTEM ch.ivyteam.ivy.process.model.diagram.value.Label@a646175e
 TaskA.ROL=SYSTEM
 TaskA.TYPE=0' #txt
 Os0 f7 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>

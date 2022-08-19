@@ -24,7 +24,7 @@
     <dependency>
       <groupId>ch.ivyteam.ivy.project.portal</groupId>
       <artifactId>portalTemplate</artifactId>
-      <version>[9.3.0-m212,)</version>
+      <version>[9.3.3,)</version>
       <type>iar</type>
     </dependency>
   </dependencies>
